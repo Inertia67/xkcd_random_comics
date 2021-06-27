@@ -93,11 +93,11 @@
                         $template = str_replace($key, $value, $template);
                     }
                     // send email
-                    if(mail($to_email, "Verification mail | XKCD", $template, $headers)){
+                    //if(mail($to_email, "Verification mail | XKCD", $template, $headers)){
                         return ['is_success'=>1];
-                    }else{
-                        return ['is_success'=>0, 'message' => 'Error sending Mail'];
-                    }
+                    // }else{
+                    //     return ['is_success'=>0, 'message' => 'Error sending Mail'];
+                    // }
                 }
                 catch(Exception $e){
                     return ['is_success'=>0,
