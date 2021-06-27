@@ -1,7 +1,7 @@
 <?php
-$servername = "freedb.tech";
-$username = "freedbtech_randomroot";
-$password = "root";
+$servername = "freedb.tech";//localhost
+$username = "freedbtech_randomroot";//root
+$password = "root";//"
 $dbName = "freedbtech_xkcdrandomcomics";
 
 //create connection
