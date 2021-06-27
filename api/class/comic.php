@@ -3,7 +3,7 @@
     ini_set('display_errors', 1);
     ini_set('display_startup_errors', 1);
     error_reporting(E_ALL);
-    require_once($_SERVER['DOCUMENT_ROOT']."/random-xkcd-comics/config/config.php");//remove random-xkcd-comics for production
+    require_once($_SERVER['DOCUMENT_ROOT']."/config/config.php");//remove random-xkcd-comics for production
     class comic {
         function __construct() {
            
@@ -50,7 +50,7 @@
                 $headers = "MIME-Version: 1.0" . "\r\n"; 
                 $headers .= "Content-type:text/html;charset=UTF-8" . "\r\n"; 
                 $to_email= $data['email'];
-                $template = file_get_contents($_SERVER['DOCUMENT_ROOT']."/random-xkcd-comics/api/template/comic.html");
+                $template = file_get_contents($_SERVER['DOCUMENT_ROOT']."/api/template/comic.html");
                 $variables = array(
                     "{{img}}" => $data["img"],
                     "{{title}}" => $data["title"],
@@ -82,7 +82,7 @@
                     $headers = "MIME-Version: 1.0" . "\r\n"; 
                     $headers .= "Content-type:text/html;charset=UTF-8" . "\r\n"; 
                     $to_email= $data['email'];
-                    $template = file_get_contents($_SERVER['DOCUMENT_ROOT']."/random-xkcd-comics/api/template/verify.html");
+                    $template = file_get_contents($_SERVER['DOCUMENT_ROOT']."api/template/verify.html");
                     $hash=base64_encode($data['id'].",".$data['email']);
                     $variables = array(
                         "{{suburl}}" => "$hash",
