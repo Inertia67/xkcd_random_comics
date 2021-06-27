@@ -1,7 +1,13 @@
 <?php header('Access-Control-Allow-Origin: *'); 
     ini_set('display_errors', 1);
     ini_set('display_startup_errors', 1);
-    error_reporting(E_ALL);
+    ini_set('smtp_server', 'smtp.gmail.com');
+    ini_set('smtp_port', '587');
+    ini_set('auth_username', 'finalcollegeproject@gmail.com');
+    ini_set('auth_password', 'Kal@8961');
+    ini_set('force_sender', 'finalcollegeproject@gmail.com');
+
+        error_reporting(E_ALL);
    // phpinfo();
     
 ?>

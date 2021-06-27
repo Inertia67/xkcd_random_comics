@@ -1,8 +1,11 @@
-
 <?php
     ini_set('display_errors', 1);
     ini_set('display_startup_errors', 1);
     error_reporting(E_ALL);
+    use PHPMailer\PHPMailer\PHPMailer;
+    use PHPMailer\PHPMailer\SMTP;
+    use PHPMailer\PHPMailer\Exception;
+    require_once($_SERVER['DOCUMENT_ROOT']."/vendor/autoload.php");
     require_once($_SERVER['DOCUMENT_ROOT']."/config/config.php");//remove random-xkcd-comics for production
     class comic {
         function __construct() {
@@ -65,11 +68,45 @@
                 }
                 $subject =  $data['title']." | XKCD";
                 // send email
-                if(mail($to_email, $subject, $template, $headers)){
+                // if(mail($to_email, $subject, $template, $headers)){
+                //     return ['is_success'=>1];
+                // }else{
+                //     return ['is_success'=>0, 'message' => 'Error sending Mail'];
+                // }
+                $mail = new PHPMailer(true);
+                $mail->isSMTP();            
+                //Set SMTP host name                          
+                $mail->Host = "smtp.gmail.com";
+                //Set this to true if SMTP host requires authentication to send email
+                $mail->SMTPAuth = true;                          
+                //Provide username and password     
+                $mail->Username = "finalcollegeproject@gmail.com";                 
+                $mail->Password = "kvcxqhuoaijfqnrl";                           
+                //If SMTP requires TLS encryption then set it
+                $mail->SMTPSecure = "tls";                           
+                //Set TCP port to connect to
+                $mail->Port = 587;                                   
+
+                $mail->From = "finalcollegeproject@gmail.com";
+                $mail->FromName = "Random Comic";
+
+                $mail->addAddress($to_email);
+
+                $mail->isHTML(true);
+
+                $mail->Subject = "Subject Text";
+                $mail->Body = "<i>Mail body in HTML</i>";
+                // $mail->AltBody = "This is the plain text version of the email content";
+
+                try {
+                    $mail->send();
                     return ['is_success'=>1];
-                }else{
+                } catch (Exception $e) {
+                    var_dump($mail->ErrorInfo);
+                    // echo "Mailer Error: " . $mail->ErrorInfo;
                     return ['is_success'=>0, 'message' => 'Error sending Mail'];
                 }
+
             }
             catch(Exception $e){
                 return ['is_success'=>0,
