@@ -5,8 +5,8 @@
     use PHPMailer\PHPMailer\PHPMailer;
     use PHPMailer\PHPMailer\SMTP;
     use PHPMailer\PHPMailer\Exception;
-    require_once($_SERVER['DOCUMENT_ROOT']."/vendor/autoload.php");
-    require_once($_SERVER['DOCUMENT_ROOT']."/config/config.php");//remove random-xkcd-comics for production
+    require_once($_SERVER['DOCUMENT_ROOT']."/random-xkcd-comics/vendor/autoload.php");
+    require_once($_SERVER['DOCUMENT_ROOT']."/random-xkcd-comics/config/config.php");//remove random-xkcd-comics for production
     class comic {
         function __construct() {
            
@@ -53,7 +53,7 @@
                 $headers = "MIME-Version: 1.0" . "\r\n"; 
                 $headers .= "Content-type:text/html;charset=UTF-8" . "\r\n"; 
                 $to_email= $data['email'];
-                $template = file_get_contents($_SERVER['DOCUMENT_ROOT']."/api/template/comic.html");
+                $template = file_get_contents($_SERVER['DOCUMENT_ROOT']."/random-xkcd-comics/api/template/comic.html");
                 $variables = array(
                     "{{img}}" => $data["img"],
                     "{{title}}" => $data["title"],
@@ -80,8 +80,7 @@
                 //Set this to true if SMTP host requires authentication to send email
                 $mail->SMTPAuth = true;                          
                 //Provide username and password     
-                $mail->Username = "finalcollegeproject@gmail.com";                 
-                $mail->Password = "Kal@8961";                           
+                                         
                 //If SMTP requires TLS encryption then set it
                 $mail->SMTPSecure = "tls";                           
                 //Set TCP port to connect to
@@ -93,9 +92,10 @@
                 $mail->addAddress($to_email);
 
                 $mail->isHTML(true);
+                // $mail->addCustomHeader('X-custom-header', $headers);
 
-                $mail->Subject = "Subject Text";
-                $mail->Body = "<i>Mail body in HTML</i>";
+                $mail->Subject =  $subject;
+                $mail->Body =  $template;
                 // $mail->AltBody = "This is the plain text version of the email content";
 
                 try {
@@ -119,7 +119,7 @@
                     $headers = "MIME-Version: 1.0" . "\r\n"; 
                     $headers .= "Content-type:text/html;charset=UTF-8" . "\r\n"; 
                     $to_email= $data['email'];
-                    $template = file_get_contents($_SERVER['DOCUMENT_ROOT']."/api/template/verify.html");
+                    $template = file_get_contents($_SERVER['DOCUMENT_ROOT']."/random-xkcd-comics/api/template/verify.html");
                     $hash=base64_encode($data['id'].",".$data['email']);
                     $variables = array(
                         "{{suburl}}" => "$hash",
