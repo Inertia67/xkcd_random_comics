@@ -82,7 +82,7 @@
                     $headers = "MIME-Version: 1.0" . "\r\n"; 
                     $headers .= "Content-type:text/html;charset=UTF-8" . "\r\n"; 
                     $to_email= $data['email'];
-                    $template = file_get_contents($_SERVER['DOCUMENT_ROOT']."api/template/verify.html");
+                    $template = file_get_contents($_SERVER['DOCUMENT_ROOT']."/api/template/verify.html");
                     $hash=base64_encode($data['id'].",".$data['email']);
                     $variables = array(
                         "{{suburl}}" => "$hash",
