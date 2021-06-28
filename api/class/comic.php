@@ -2,11 +2,7 @@
     ini_set('display_errors', 1);
     ini_set('display_startup_errors', 1);
     error_reporting(E_ALL);
-    use PHPMailer\PHPMailer\PHPMailer;
-    use PHPMailer\PHPMailer\SMTP;
-    use PHPMailer\PHPMailer\Exception;
-    require_once($_SERVER['DOCUMENT_ROOT']."/random-xkcd-comics/vendor/autoload.php");
-    require_once($_SERVER['DOCUMENT_ROOT']."/random-xkcd-comics/config/config.php");//remove random-xkcd-comics for production
+    require_once($_SERVER['DOCUMENT_ROOT']."/config/config.php");//remove random-xkcd-comics for production
     class comic {
         function __construct() {
            
@@ -50,62 +46,58 @@
 
         public function send_mail($data){
             try{
-                $headers = "MIME-Version: 1.0" . "\r\n"; 
-                $headers .= "Content-type:text/html;charset=UTF-8" . "\r\n"; 
                 $to_email= $data['email'];
-                $template = file_get_contents($_SERVER['DOCUMENT_ROOT']."/random-xkcd-comics/api/template/comic.html");
+                $template = file_get_contents($_SERVER['DOCUMENT_ROOT']."/api/template/comic.html");
+                $hash_email=base64_encode($data['email']);
                 $variables = array(
                     "{{img}}" => $data["img"],
                     "{{title}}" => $data["title"],
                     "{{url}}" => $data["url"],
                     "{{unsuburl}}" => "Adnan",
                     "{{serverUrl}}"=>$this->serverUrl,
-                    "{{email}}"=>"$to_email"
+                    "{{email}}"=>"$hash_email"
 
                 );
                 foreach ($variables as $key => $value){
                     $template = str_replace($key, $value, $template);
                 }
+                
                 $subject =  $data['title']." | XKCD";
-                // send email
-                // if(mail($to_email, $subject, $template, $headers)){
-                //     return ['is_success'=>1];
-                // }else{
-                //     return ['is_success'=>0, 'message' => 'Error sending Mail'];
-                // }
-                $mail = new PHPMailer(true);
-                $mail->isSMTP();            
-                //Set SMTP host name                          
-                $mail->Host = "smtp.gmail.com";
-                //Set this to true if SMTP host requires authentication to send email
-                $mail->SMTPAuth = true;                          
-                //Provide username and password     
-                                         
-                //If SMTP requires TLS encryption then set it
-                $mail->SMTPSecure = "tls";                           
-                //Set TCP port to connect to
-                $mail->Port = 587;                                   
+           
+                $file = $data["img"];
+                $content = file_get_contents( $file);
+                $content = chunk_split(base64_encode($content));
+                $uid = md5(uniqid(time()));
+                $name = basename($file);
 
-                $mail->From = "finalcollegeproject@gmail.com";
-                $mail->FromName = "Random Comic";
+                $from_name="Kishan Singh Inertia";
+                $from_mail="finalcollegeproject@gmail.com";
+                $replyto="finalcollegeproject@gmail.com";
+                $filename=$data["title"].".png";
+                // header
+                $header = "From: ".$from_name." <".$from_mail.">\r\n";
+                $header .= "Reply-To: ".$replyto."\r\n";
+                $header .= "MIME-Version: 1.0\r\n";
+                $header .= "Content-Type: multipart/mixed; boundary=\"".$uid."\"\r\n\r\n";
 
-                $mail->addAddress($to_email);
-
-                $mail->isHTML(true);
-                // $mail->addCustomHeader('X-custom-header', $headers);
-
-                $mail->Subject =  $subject;
-                $mail->Body =  $template;
-                // $mail->AltBody = "This is the plain text version of the email content";
-
-                try {
-                    $mail->send();
+                // message & attachment
+                $nmessage = "--".$uid."\r\n";
+                $nmessage .= "Content-type:text/html; charset=UTF-8\r\n";
+                $nmessage .= "Content-Transfer-Encoding: 7bit\r\n\r\n";
+                $nmessage .= $template."\r\n\r\n";
+                $nmessage .= "--".$uid."\r\n";
+                $nmessage .= "Content-Type: application/octet-stream; name=\"".$filename."\"\r\n";
+                $nmessage .= "Content-Transfer-Encoding: base64\r\n";
+                $nmessage .= "Content-Disposition: attachment; filename=\"".$filename."\"\r\n\r\n";
+                $nmessage .= $content."\r\n\r\n";
+                $nmessage .= "--".$uid."--";
+                    // send email
+                if(mail($to_email, $subject, $nmessage, $header)){
                     return ['is_success'=>1];
-                } catch (Exception $e) {
-                    var_dump($mail->ErrorInfo);
-                    // echo "Mailer Error: " . $mail->ErrorInfo;
+                }else{
                     return ['is_success'=>0, 'message' => 'Error sending Mail'];
                 }
+                
 
             }
             catch(Exception $e){
@@ -119,7 +111,7 @@
                     $headers = "MIME-Version: 1.0" . "\r\n"; 
                     $headers .= "Content-type:text/html;charset=UTF-8" . "\r\n"; 
                     $to_email= $data['email'];
-                    $template = file_get_contents($_SERVER['DOCUMENT_ROOT']."/random-xkcd-comics/api/template/verify.html");
+                    $template = file_get_contents($_SERVER['DOCUMENT_ROOT']."/api/template/verify.html");
                     $hash=base64_encode($data['id'].",".$data['email']);
                     $variables = array(
                         "{{suburl}}" => "$hash",

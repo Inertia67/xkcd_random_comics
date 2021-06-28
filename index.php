@@ -8,14 +8,14 @@
     ini_set('force_sender', 'finalcollegeproject@gmail.com');
 
         error_reporting(E_ALL);
-   // phpinfo();
+
     
 ?>
 
 <!DOCTYPE html>
 <html>
     <head>
-        <title>Page Title</title>
+        <title>XKCD Random Comics by Kishan Singh</title>
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet" href="./assets/css/styles.css">
     </head>
@@ -27,11 +27,11 @@
             </div>
             <form class="form" name="subscribe_form">
                 <div>
-                    <input type="text" name="name" placeholder="Enter Name" required value="a"/>
+                    <input type="text" name="name" placeholder="Enter Name" required value=""/>
                 </div>
                 <div class="break"></div>
                 <div>
-                    <input type="email" name="email" placeholder="and Email" required value="mitom22696@seek4wap.com"/>
+                    <input type="email" name="email" placeholder="and Email" required value=""/>
                 </div>
                 <div>
                     <button type="submit" name="submit">Get Random XKCD Comics! <i class="fa fa-arrow-right"></i></button>
