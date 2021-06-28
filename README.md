@@ -9,5 +9,5 @@
 3. You will receive a random comics from XKCD.
 4. You can always unsubscribe by clicking on unsubscribe link from your inbox.  <br/>![alt text](https://i.imgur.com/kdZcAkF.png "unsubscribe")
 
-**Thank you for using XKCD Random Comics.**
+**Thank you for using XKCD Random Comics.** <br/>
 **Have a great time!**
