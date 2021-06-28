@@ -1,4 +1,4 @@
-<p align="center">
+
 # **XKCD Random Comics By Kishan  Singh**
 
 * This site is a random XKCD comic generator(which is sent to your email).
@@ -10,4 +10,3 @@
 * You can always unsubscribe by clicking on unsubscribe link from your inbox.  <br/>![alt text](https://i.imgur.com/kdZcAkF.png "unsubscribe")
 **Thank you for using XKCD Random Comics.**
 **Have a great time!**
-</p>
