@@ -1,8 +1,8 @@
 <?php
-$servername = "freedb.tech";//localhost
-$username = "freedbtech_randomroot";//root
-$password = "root";//"
-$dbName = "freedbtech_xkcdrandomcomics";
+$servername = "YourServer";//localhost
+$username = "YourUsername";//root
+$password = "YourPassword";//"
+$dbName = "YourDBName";
 
 //create connection
 
